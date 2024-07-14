@@ -1,0 +1,19 @@
+
+    <div class="home" *ngFor="let section of sections">
+        <div class="horizontal">
+            <div class="intro">
+                <h2>{{ section.title }}</h2>
+                <p *ngIf="section.description">{{ section.description }}</p>
+                <img *ngIf="section.image" [src]="section.image" alt="{{ section.title }}">
+            </div>
+        </div>
+       
+        <div *ngIf="section.subsections">
+            <div class="subsections">
+                <div class="card" *ngFor="let sub of section.subsections">
+                    <h3>{{ sub.subtitle }}</h3>
+                    <img [src]="sub.image" alt="{{ sub.subtitle }}">
+                  </div>
+            </div>
+        </div>
+    </div>  

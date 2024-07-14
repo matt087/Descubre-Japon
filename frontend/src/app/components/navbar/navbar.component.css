@@ -1,0 +1,73 @@
+.navbar{
+    width: 100vw;
+    display: flex;
+    height: 20vh;
+    background-color: #FFB7C5;
+    font-family: "Yanone Kaffeesatz", sans-serif;
+}
+.nav-logo{
+    width: 40%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 15px;
+}
+.nav-logo h1{
+    font-size: 40px;
+    color: #FF69B4;
+    
+}
+.nav-logo img{
+    height: 15vh;
+}
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 60%;
+
+}
+.nav-links {
+    display: flex;
+    justify-content: center;
+    flex-grow: 1;
+    height: 7vh;
+}
+
+.nav-links button {
+    margin: 0 10px; /* Espacio entre los botones */
+    font-size: 22px;
+    font-weight: bold;
+    height: 7vh;
+    background-color: #FFB7C5;
+    border: none;
+  }
+
+.nav-links button:hover,
+.nav-links button.active-link{
+    margin: 0 10px; /* Espacio entre los botones */
+    font-size: 22px;
+    background-color:  #FF69B4;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .privado button{
+    margin: 0 10px; /* Espacio entre los botones */
+    font-size: 22px;
+    font-weight: bold;
+    height: 7vh;
+    background-color: #FFB7C5;
+    border: none;
+  }
+
+.privado button:hover,
+.privado button .active-link{
+    margin: 0 10px; /* Espacio entre los botones */
+    font-size: 22px;
+    background-color:  white;
+    color: #FF69B4;
+    border-radius: 5px;
+    cursor: pointer;
+  }

@@ -1,0 +1,80 @@
+
+#festivals,
+#traditional-clothing,
+#tea-ceremony {
+  margin-bottom: 20px;
+}
+
+h2 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  color: #C71585;
+
+}
+
+h3{
+    color: #FF69B4;
+    font-size: 25px;
+}
+
+
+.festivals-container,
+.clothing-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.festival-card,
+.clothing-item {
+  width: calc(33.33% - 20px);
+  margin: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+}
+
+.festival-card:hover,
+.clothing-item:hover {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.festival-image,
+.clothing-image {
+  width: 100%;
+  height: auto;
+  border-radius: 5px;
+}
+
+.tea-ceremony-content {
+  margin-top: 20px;
+}
+
+.tea-ceremony-content iframe {
+  width: 50%;
+  height: 315px; /* Ajusta la altura según sea necesario */
+  border: none;
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.horizontal{
+    width: 100vw;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    text-align: center;
+}
+.vertical{
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    flex-direction:column ;
+}
+
+.center-horizontal{
+    text-align: center;
+}

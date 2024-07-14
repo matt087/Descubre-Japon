@@ -1,0 +1,39 @@
+<section id="festivals">
+    <h2 class="center-horizontal">Festivales Japoneses</h2>
+    <div class="festivals-container">
+        <div class="horizontal">
+            <div *ngFor="let festival of festivals" class="festival-card">
+                <img [src]="festival.imageUrl" alt="{{ festival.name }}" class="festival-image">
+                <h3>{{ festival.name }}</h3>
+                <p>{{ festival.description }}</p>
+              </div>
+        </div>
+    </div>
+  </section>
+  <!-- japan-culture.component.html -->
+
+<section id="traditional-clothing">
+    <h2 class="center-horizontal">Ropa Tradicional Japonesa</h2>
+    <div class="clothing-container">
+        <div class="horizontal">
+            <div *ngFor="let clothing of traditionalClothing" class="clothing-item">
+                <img [src]="clothing.imageUrl" alt="{{ clothing.name }}" class="clothing-image">
+                <h3>{{ clothing.name }}</h3>
+                <p>{{ clothing.description }}</p>
+              </div>
+        </div>
+    </div>
+  </section>
+  <!-- japan-culture.component.html -->
+
+<section id="tea-ceremony">
+    <h2 class="center-horizontal">Ceremonia del Té Japonesa</h2>
+    <div class="tea-ceremony-content"> 
+        <div class="vertical">
+            <p class="center-horizontal">La ceremonia del té, conocida como "chanoyu" o "chado", es una tradición japonesa...</p>
+            <iframe  width="560" height="315" src="https://www.youtube.com/embed/PUtbI5L7tu0?si=tuuwS5-yJDckkdZS" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>    
+        </div>
+    </div>
+  </section>
+  
+  
