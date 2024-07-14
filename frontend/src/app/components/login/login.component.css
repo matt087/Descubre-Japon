@@ -1,16 +1,13 @@
-/* quiz.component.css */
-
-/* Estilos generales del componente */
 #quiz {
     display: flex;
-    justify-content: center;  /* Centra el contenedor del formulario */
+    justify-content: center;  
     margin-bottom: 20px;
   }
   
   h2 {
     font-size: 1.5rem;
     margin-bottom: 20px;
-    text-align: center;  /* Centra el título del cuestionario */
+    text-align: center;  
   }
   
   form {
@@ -21,7 +18,7 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     max-width: 600px;
     width: 100%;
-    text-align: left;  /* Alinea el texto a la izquierda */
+    text-align: left;  
     margin-top: 20px;
     margin-bottom: 20px;
   }
