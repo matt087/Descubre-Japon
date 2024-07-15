@@ -1,67 +1,45 @@
 const { Router } = require('express');
 const router = Router();
 
-const Dish = require('../models/dish');
-const Waiter = require('../models/waiter');
-const Info = require('../models/info');
 const User = require('../models/user');
-const Order = require('../models/order')
-const waiterRating = require('../models/waiterRating');
-
+const Question = require ('../models/question');
+const Section = require('../models/section');
+const JCulture = require('../models/japanCulture');
 const jwt = require('jsonwebtoken');
 const bodyParser = require('body-parser');
 const fs = require('fs');
 const path = require('path');
 
-//PLATILLOS 
-router.post('/add-dish', (req, res) => {
-    const newDish = new Dish(req.body);
-  
-    newDish.save()
-      .then(() => {
-        res.json({ message: 'Platillo añadido correctamente' });
-      })
-      .catch(error => {
-        console.error('Error al añadir el platillo:', error);
-        res.status(500).send('Error al añadir el platillo');
-      });
+router.get('/home', (req, res)=> {
+  Section.find()
+  .then(information =>{
+    res.json(information);
+  })
+  .catch(error=>{
+    console.error('Error al obtener el contenido: ', error);
+    res.status(500).send('Error al obtener el contenido');
   });
+});
 
-router.get('/dishes', (req, res) => {
-Dish.find()
-    .then(dishes => {
-    res.json(dishes);
+router.get('/questions', (req, res) => {
+Question.find()
+    .then(questions => {
+    res.json(questions);
     })
     .catch(error => {
-    console.error('Error al obtener los platillos:', error);
-    res.status(500).send('Error al obtener los platillos');
+    console.error('Error al obtener las preguntas:', error);
+    res.status(500).send('Error al obtener las preguntas');
     });
 });
 
-//MESEROS
-router.post('/add-waiter', (req, res) => {
-    const newWaiter = new Waiter(req.body);
-  
-    newWaiter.save()
-      .then(() => {
-        res.json({ message: 'Mesero añadido correctamente' });
-      })
-      .catch(error => {
-        console.error('Error al añadir el mesero:', error);
-        res.status(500).send('Error al añadir el mesero');
-      });
-  });
-
-router.get('/waiters', (req, res) => {
-    Waiter.find()
-        .then(waiters => {
-        res.json(waiters);
-        })
-        .catch(error => {
-        console.error('Error al obtener los meseros:', error);
-        res.status(500).send('Error al obtener los meseros');
-        });
-    });
+router.get('/japan-culture', async (req, res) => {
+  try {
+    const japanData = await JCulture.findOne();
+    res.json(japanData);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+});
 
 //DATOS  
 router.put('/edit-info/:id', (req, res) => {

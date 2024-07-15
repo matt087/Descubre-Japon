@@ -2,7 +2,7 @@
     <h2 class="center-horizontal">Festivales Japoneses</h2>
     <div class="festivals-container">
         <div class="horizontal">
-            <div *ngFor="let festival of festivals" class="festival-card">
+            <div *ngFor="let festival of japanData.festivals" class="festival-card">
                 <img [src]="festival.imageUrl" alt="{{ festival.name }}" class="festival-image">
                 <h3>{{ festival.name }}</h3>
                 <p>{{ festival.description }}</p>
@@ -16,7 +16,7 @@
     <h2 class="center-horizontal">Ropa Tradicional Japonesa</h2>
     <div class="clothing-container">
         <div class="horizontal">
-            <div *ngFor="let clothing of traditionalClothing" class="clothing-item">
+            <div *ngFor="let clothing of japanData.traditionalClothing" class="clothing-item">
                 <img [src]="clothing.imageUrl" alt="{{ clothing.name }}" class="clothing-image">
                 <h3>{{ clothing.name }}</h3>
                 <p>{{ clothing.description }}</p>
