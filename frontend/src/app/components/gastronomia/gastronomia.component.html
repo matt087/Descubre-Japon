@@ -1,11 +1,10 @@
 <section id="japanese-cuisine">
-    <h2 class="center-horizontal">Gastronomía Japonesa</h2>
-    <div class="dishes-container">
-        
-      <div *ngFor="let dish of dishes" class="dish-card">
-        <img [src]="dish.imageUrl" alt="{{ dish.name }}" class="dish-image">
-        <h3>{{ dish.name }}</h3>
-        <p>{{ dish.description }}</p>
-      </div>
+  <h2 class="center-horizontal">Gastronomía Japonesa</h2>
+  <div class="dishes-container">
+    <div *ngFor="let dish of dishes" class="dish-card">
+      <img [src]="dish.imageUrl" alt="{{ dish.name }}" class="dish-image">
+      <h3>{{ dish.name }}</h3>
+      <p>{{ dish.description }}</p>
     </div>
-  </section>
+  </div>
+</section>

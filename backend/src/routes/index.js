@@ -5,6 +5,7 @@ const User = require('../models/user');
 const Question = require ('../models/question');
 const Section = require('../models/section');
 const JCulture = require('../models/japanCulture');
+const Dish = require('../models/dish');
 const jwt = require('jsonwebtoken');
 const bodyParser = require('body-parser');
 const fs = require('fs');
@@ -38,6 +39,19 @@ router.get('/japan-culture', async (req, res) => {
     res.json(japanData);
   } catch (err) {
     res.status(500).send(err);
+  }
+});
+
+router.get('/dishes', async (req, res) => {
+  try {
+    const dishes = await Dish.findOne(); 
+    if (dishes) {
+      res.json(dishes.dishes); 
+    } else {
+      res.status(404).send({ message: 'No dishes found' });
+    }
+  } catch (error) {
+    res.status(500).send(error);
   }
 });
 
