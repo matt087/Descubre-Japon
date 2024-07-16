@@ -3,7 +3,7 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  height: 66vh;
+  min-height: 70vh;
 }
 
 label{
@@ -21,6 +21,7 @@ form {
 width: 30vw;
 margin: 0 auto;
 padding: 1em;
+margin-top: 15px;
 border: 1px solid #ccc;
 border-radius: 1em;
 background-color: #FFB7C5;
@@ -64,9 +65,9 @@ color: white;
 }
 
 .error{
-font-style: italic;
-color: red;
-}
+  font-style: italic;
+  color: red;
+  }
 
 .register{
   background-color: #FF69B4;

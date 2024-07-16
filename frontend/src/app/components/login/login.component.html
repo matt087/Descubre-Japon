@@ -1,20 +1,27 @@
-<section id="quiz">
-    <form (ngSubmit)="checkAnswers()">
-      <div *ngFor="let question of questions; let i = index" class="question-block">
-        <p>{{ i + 1 }}. {{ question.question }}</p>
-        <div *ngFor="let option of question.options">
-          <label>
-            <input type="radio" [name]="'question' + i" [value]="option" [(ngModel)]="question.userAnswer">
-            {{ option }}
-          </label>
-        </div>
+<div class="main-vertical">
+  <form [formGroup]="loginForm" (ngSubmit)="signIn()">
+      <div class="section-horizontal">
+          <label for="email">Email:</label>
+          <input id="email" formControlName="email" />
       </div>
-      <button type="submit">Enviar Respuestas</button>
-    </form>
-  
-    <div *ngIf="showResults" class="results">
-      <h3>Resultados</h3>
-      <p>Respuestas correctas: {{ correctAnswers }} de {{ questions.length }}</p>
+      <div *ngIf="loginForm.controls['email'].invalid && (loginForm.controls['email'].dirty || loginForm.controls['email'].touched)">
+          <div class="error" *ngIf="loginForm.controls['email'].errors?.['required']">El correo es requerido.</div>
+      </div>
+    
+      <div class="section-horizontal">
+          <label for="password1">Contraseña:</label>
+          <input id="password1" type="password" formControlName="password1" />
+      </div>
+      <div *ngIf="loginForm.controls['password1'].invalid && (loginForm.controls['password1'].dirty || loginForm.controls['password1'].touched)">
+          <div class="error" *ngIf="loginForm.controls['password1'].errors?.['required']">La contraseña es requerida.</div>
+      </div>
+      
+    <div class="buttons">
+        <button type="submit" [disabled]="loginForm.invalid">Iniciar Sesión</button>
+        <button type="button" class="register" (click)="goToRegister()">Registrarse</button>
     </div>
-  </section>
-  
+
+    </form>
+    
+</div>
+

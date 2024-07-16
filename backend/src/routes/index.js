@@ -6,20 +6,20 @@ const Question = require ('../models/question');
 const Section = require('../models/section');
 const JCulture = require('../models/japanCulture');
 const Dish = require('../models/dish');
+const Resultado = require('../models/result');
 const jwt = require('jsonwebtoken');
 const bodyParser = require('body-parser');
 const fs = require('fs');
 const path = require('path');
 
-router.get('/home', (req, res)=> {
-  Section.find()
-  .then(information =>{
-    res.json(information);
-  })
-  .catch(error=>{
-    console.error('Error al obtener el contenido: ', error);
-    res.status(500).send('Error al obtener el contenido');
-  });
+router.get('/home', async (req, res)=> {
+  try {
+    const japanData = await Section.find();
+    res.json(japanData);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+ 
 });
 
 router.get('/questions', (req, res) => {
@@ -55,81 +55,53 @@ router.get('/dishes', async (req, res) => {
   }
 });
 
-//DATOS  
-router.put('/edit-info/:id', (req, res) => {
-  const infoId = req.params.id;
-  const updatedInfo = req.body;
+router.post('/guardar-resultado', async (req, res) => {
+  const { nombreUsuario, respuestasCorrectas } = req.body;
 
-  Info.findByIdAndUpdate(infoId, updatedInfo, { new: true })
-    .then(updated => {
-      if (updated) {
-        res.json({ message: 'Información actualizada correctamente', edit: updated });
-      } else {
-        res.status(404).send('Error');
-      }
-    })
-    .catch(error => {
-      console.error('Error al actualizar la información:', error);
-      res.status(500).send('Error al actualizar la información');
-    });
-});
-
-router.get('/info', (req, res) => {
-Info.find()
-  .then(data => {
-  res.json(data);
-  })
-  .catch(error => {
-  console.error('Error al obtener los platillos:', error);
-  res.status(500).send('Error al obtener los platillos');
-  });
-});
-
-router.post('/rate', async (req, res) => {
   try {
-    const { waiterName, rating, comment } = req.body;
-    const newRating = new waiterRating({
-      waiterName,
-      rating,
-      comment,
+    const nuevoResultado = new Resultado({
+      nombreUsuario,
+      respuestasCorrectas
     });
-    const savedRating = await newRating.save();
-    res.status(201).json(savedRating);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
+
+    await nuevoResultado.save();
+    res.status(201).send('Resultado guardado exitosamente');
+  } catch (error) {
+    res.status(500).send('Error al guardar el resultado:', error);
   }
 });
 
 //LOGIN
-router.post('/register', async (req, res) => {
-  const { nombre, email, numero, direccion, referencia, password1, password2 } = req.body;
-
-  // Verificar si las contraseñas coinciden
-  if (password1 !== password2) {
-      return res.status(400).json({ error: "Las contraseñas no coinciden" });
-  }
-
-  const newUser = new User ({ nombre, email, numero, direccion, referencia, password1, password2 });
-  
-  try {
-      await newUser.save();
-      const token = jwt.sign({_id: newUser._id}, 'secretKeyRestaurantMeat');
-      res.status(200).json({_id: newUser._id});
-
-  } catch (error) {
-      res.status(400).json({ error: error.message });
-  }
-});
-
 
 router.post('/login', async(req, res) =>{
     const {email, password1}= req.body;
     const userFind = await User.findOne({email});
     if(!userFind) return res.status(401).send("El correo no existe")
     if(userFind.password1 !== password1) return res.status(401).send("incorrecta")
-    const token = jwt.sign({ id: User._id}, 'secretKeyRestaurantMeat');
-    return res.status(200).json({token});
+    let nombreUser = userFind.nombre;
+    const token = jwt.sign({ id: User._id, nombre: nombreUser}, 'secretKeyJapan');
+    return res.status(200).json({token, nombre: nombreUser});
 })
+
+router.post('/register', async (req, res) => {
+  const { nombre, email, password1, password2} = req.body;
+
+  // Verificar si las contraseñas coinciden
+  if (password1 !== password2) {
+      return res.status(400).json({ error: "Las contraseñas no coinciden" });
+  }
+
+  const newUser = new User ({ nombre, email, password1, password2});
+  
+  try {
+      await newUser.save();
+      const token = jwt.sign({_id: newUser._id}, 'secretKeyDCICC');
+      res.status(200).json({_id: newUser._id});
+
+  } catch (error) {
+      res.status(400).json({ error: error.message });
+  }
+});
 
 router.put('/update', async (req, res) => {
     const { email, newPassword } = req.body;
@@ -163,35 +135,6 @@ router.delete('/delete', async (req, res) =>{
     
 })
 
-//PEDIDOS
-router.post('/make-orden', verifyToken, async (req, res) => {
-  try {
-    const { cliente, productos } = req.body;
-
-    let total = 0;
-    for (const item of productos) {
-      let menuItem;
-      if (item.menuItem) {
-        menuItem = await MenuItem.findById(item.menuItem);
-        if (!menuItem) {
-          console.log(`Producto no encontrado para ID: ${item.menuItem}`);
-        }
-      }
-      
-      if (menuItem) {
-        total += menuItem.price * item.cantidad;
-      }
-    }
-
-    const newPedido = new Order({ cliente, productos, total });
-    const savedPedido = await newPedido.save();
-    res.status(201).json(savedPedido);
-  } catch (err) {
-    console.error('Error al crear la orden:', err);
-    res.status(500).json({ message: err.message });
-  }
-});
-
 module.exports = router;
 
 //En la funcion la cabecera se la debe definir en el postman dando un valor, en este caso se debe dar el token 
@@ -208,7 +151,7 @@ function verifyToken(req, res, next){
         return res.status(401).send('Unathorize Request');
      }
 
-     const payload = jwt.verify(token, 'secretKeyRestaurantMeat') //Contenido del token
+     const payload = jwt.verify(token, 'secretKeyJapan') //Contenido del token
      //console.log(payload)// muestra los datos contenidos en el payload deberia ser el id del usuario
      req.userId = payload._id ;
      next();

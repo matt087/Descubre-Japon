@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -6,44 +9,49 @@ import { Component } from '@angular/core';
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
-  questions = [
-    {
-      question: '¿Cuál es el festival más famoso de Kioto?',
-      options: ['Tanabata Matsuri', 'Gion Matsuri', 'Obon'],
-      answer: 'Gion Matsuri',
-      userAnswer: ''
-    },
-    {
-      question: '¿Qué es un kimono?',
-      options: ['Un tipo de sushi', 'Una prenda tradicional japonesa', 'Una ceremonia del té'],
-      answer: 'Una prenda tradicional japonesa',
-      userAnswer: ''
-    },
-    {
-      question: '¿Cuál de estos es un postre japonés tradicional?',
-      options: ['Sushi', 'Ramen', 'Mochi'],
-      answer: 'Mochi',
-      userAnswer: ''
-    },
-    {
-      question: '¿En qué fecha se celebra el Tanabata Matsuri?',
-      options: ['7 de julio', '15 de agosto', '31 de diciembre'],
-      answer: '7 de julio',
-      userAnswer: ''
-    },
-    {
-      question: '¿Qué es el ramen?',
-      options: ['Una sopa de fideos japonesa', 'Un tipo de kimono', 'Una danza tradicional'],
-      answer: 'Una sopa de fideos japonesa',
-      userAnswer: ''
+  user = {
+    email: '',
+    password1:''
+  }
+
+  loginForm: FormGroup;
+
+  constructor(private fb: FormBuilder, private authService:AuthService,
+    private router:Router) {
+    this.loginForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      password1: ['', Validators.required]
+    });
+  }
+
+  signIn(): void {
+    if (this.loginForm.valid) {
+      this.user = this.loginForm.value;
+      console.log('Email:', this.user.email);
+      console.log('Password:', this.user.password1);
+      this.authService.signIn(this.user)
+      .subscribe(
+        res => {
+          console.log(res);
+          localStorage.setItem('token', res.token);
+          console.log(this.authService.getName());
+          this.router.navigate(['/form']);
+        },
+        err => {
+          console.error(err);
+          if (err.status === 401) {
+            alert('Credenciales incorrectas. Inténtelo de nuevo.');
+          }
+        }
+      );    
     }
-  ];
+    else{
+      console.log('Invalido')
+    }
+    
+  }
 
-  showResults = false;
-  correctAnswers = 0;
-
-  checkAnswers() {
-    this.correctAnswers = this.questions.filter(q => q.userAnswer === q.answer).length;
-    this.showResults = true;
+  goToRegister() {
+    this.router.navigate(['/register']); 
   }
 }

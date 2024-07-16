@@ -5,12 +5,20 @@
     </div>
     <div class="nav-container">
         <div class="nav-links">
-            <button [routerLink]="['/home']" routerLinkActive="active-link">Home</button>
-            <button [routerLink]="['/historia']" routerLinkActive="active-link">Historia y Cultura</button>
-            <button [routerLink]="['/gastronomia']" routerLinkActive="active-link">Gastronomia</button>
-            <div class="privado">
-                <button [routerLink]="['/login']" routerLinkActive="active-link">Cuestionario</button>
-            </div>
+            <button [routerLink]="['/home']" routerLinkActive="active-link" *ngIf="!authService.loggedIn()">Home</button>
+            <button [routerLink]="['/historia']" routerLinkActive="active-link" *ngIf="!authService.loggedIn()">Historia y Cultura</button>
+            <button [routerLink]="['/gastronomia']" routerLinkActive="active-link" *ngIf="!authService.loggedIn()">Gastronomia</button>
+            <ng-container *ngIf="!authService.loggedIn(); else loggedIn">
+                <div class="privado">
+                    <button [routerLink]="['/login']" routerLinkActive="active-link">Cuestionario</button>
+                </div>
+            </ng-container>
+            <ng-template #loggedIn>
+                <div class="privado2">
+                    <button aria-current="page" routerLinkActive="active-link" (click)="authService.logout()">Cerrar Sesión</button>
+                </div>
+            </ng-template>  
+
         </div>
     </div>
 </div>
